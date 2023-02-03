@@ -1,103 +1,337 @@
-# Amazon CodeGuru Profiler demo application
+# <p align="center">MiroTalk SFU</p>
 
-Simple application for demonstrating the features of [Amazon CodeGuru Profiler](https://aws.amazon.com/codeguru/).
+<p align="center">Free WebRTC - SFU - Simple, Secure, Scalable Real-Time Video Conferences Up to 4k, compatible with all browsers and platforms.</p>
 
-![CodeGuru Profiler Console Screenshot](CodeGuruProfilerScreenshot.png)
+<hr />
 
-## Quick demo
+<p align="center">
+    <a href="https://sfu.mirotalk.com/">sfu.mirotalk.com</a>
+</p>
 
-The results of this app are available to play with in the AWS console.
-There is no need to run the code, if you just want to see the results.
+<hr />
 
-1. Sign into the [AWS console](https://console.aws.amazon.com)
-2. Head to CodeGuru Profiler and check out [the demo app](https://console.aws.amazon.com/codeguru/profiler/profile?profileName=%7BCodeGuru%7D%20DemoProfilingGroup-WithIssues)
+<p align="center">
+    <a href="https://sfu.mirotalk.com/">
+        <img src="public/images/mirotalksfu-header.gif">
+    </a>
+</p>
 
-## How it works
+<hr />
 
-The application does some basic image processing, with some CPU-heavy
-operations alongside some IO-heavy operations.
+<details>
+<summary>Features</summary>
 
-It consists chiefly of two components which run in parallel, the task publisher
-and the image processor.
+<br/>
 
-CodeGuru Profiler runs inside the application, in the same way any real application
-would use it. It collects and reports profiling data about the application, ready to
-be viewed in the AWS console.
+-   Is `100% Free` - `Open Source` - `Self Hosted` and [PWA](https://en.wikipedia.org/wiki/Progressive_web_application)!
+-   No download, plug-in or login required, entirely browser-based
+-   Unlimited number of conference rooms, without call time limitation
+-   Desktop and Mobile compatible
+-   Translated in 133 languages
+-   Optimized Room URL Sharing (share it to your participants, wait for them to join)
+-   Possibility to Password protect the Room for the meeting
+-   Lobby mode lets you protect your meeting by only allowing people to enter after a formal approval by a moderator.
+-   Webcam Streaming up to 4K quality (Front - Rear for mobile)
+-   Echo cancellation and noise suppression that makes your audio crystal clear
+-   Screen Sharing to present documents, slides, and more ...
+-   File Sharing (with drag-and-drop), share any files to your participants in the room
+-   Take a snapshot from the video frame(screen/cam) to save it as an image on your device.
+-   Chat with Emoji Picker to show you feeling, private messages, Markdown support, possibility to Save the conversations, and many more.
+-   Speech recognition, execute the app features simply with your voice.
+-   Advance collaborative whiteboard for the teachers
+-   Select Microphone - Speaker and Video source
+-   Recording your Screen, Audio, or Video
+-   Share any YouTube video in real-time to your participants
+-   Share any mp4, webm, ogg video in real-time to your participants with possibility to download it
+-   Full-Screen Mode on mouse click on the Video element
+-   Possibility to Change UI Themes
+-   Possibility to protect your Host with username and password (default disabled)
+-   Supports [REST API](app/api/README.md) (Application Programming Interface)
+-   [Slack](https://api.slack.com/apps/) API integration
+-   [Sentry](https://sentry.io/) error reporting
 
-##### [`TaskPublisher`](src/main/java/com/company/demoapplication/TaskPublisher.java)
+</details>
 
-Checks the S3 bucket for available images, and submits the name of some of these images
-to the SQS queue.
+<details>
+<summary>About</summary>
 
-##### [`ImageProcessor`](src/main/java/com/company/demoapplication/ImageProcessor.java)
+-   [Presentation](https://www.canva.com/design/DAE693uLOIU/view)
 
-Polls SQS for names of images to process. Processing an image involves downloading
-it from S3, applying some image transforms (e.g. converting to monochrome), and
-uploading the result back to S3.
+-   [Video](https://www.youtube.com/watch?v=_IVn2aINYww)
 
-## Setup
+</details>
 
-Make sure you have installed the latest version of [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
+<details>
+<summary>Direct Join</summary>
 
-Setup the required components by running the following ```aws``` commands:
+<br/>
 
-1. Create two profiling groups in CodeGuru Profiler, named `DemoApplication-WithIssues` and `DemoApplication-WithoutIssues`
-2. Create an SQS queue
-3. Create an S3 bucket
-4. Install [Maven](https://maven.apache.org/) (to build and run the code).
-5. Create/use an IAM role with permissions to access SQS, S3 and CodeGuru Profiler
+-   You can `join` directly to `room` by going to
+-   https://sfu.mirotalk.com/join?room=test&password=0&name=mirotalksfu&audio=0&video=0&screen=0&notify=0
 
-```bash
-aws configure # Set up your AWS credentials and region as usual
-aws codeguruprofiler create-profiling-group --profiling-group-name DemoApplication-WithIssues
-aws codeguruprofiler create-profiling-group --profiling-group-name DemoApplication-WithoutIssues
-aws s3 mb s3://demo-application-test-bucket-1092734-REPLACE-ME
-aws sqs create-queue --queue-name DemoApplicationQueue
+    | Params   | Type           | Description     |
+    | -------- | -------------- | --------------- |
+    | room     | string         | room Id         |
+    | password | string/boolean | room password   |
+    | name     | string         | user name       |
+    | audio    | boolean        | audio stream    |
+    | video    | boolean        | video stream    |
+    | screen   | boolean        | screen stream   |
+    | notify   | boolean        | welcome message |
+
+</details>
+
+<details>
+<summary>Embed a meeting</summary>
+
+<br/>
+
+Embedding a meeting into a service or app using an iframe.
+
+```html
+<iframe
+    allow="camera; microphone; display-capture; fullscreen; clipboard-read; clipboard-write; autoplay"
+    src="https://sfu.mirotalk.com/newroom"
+    style="height: 100%; width: 100%; border: 0px;"
+></iframe>
 ```
 
-## How to run
+</details>
 
-The demo application can be run in two modes: `with-issues` and `without-issues`. Thus, you can compare how an
-optimized version of the application compares to one with performance issues.
+<details open>
+<summary>Quick Start</summary>
 
-* To run the `with-issues` version, use the following instructions. Remember to replace `YOUR-ACCOUNT-ID`, `YOUR-AWS-REGION` and `YOUR-BUCKET-REPLACE-ME` as appropriate.
+<br/>
 
-```bash
-# These need to be set according to your setup:
-export DEMO_APP_SQS_URL=https://sqs.YOUR-AWS-REGION.amazonaws.com/YOUR-ACCOUNT-ID/DemoApplicationQueue
-export DEMO_APP_BUCKET_NAME=demo-application-test-bucket-1092734-YOUR-BUCKET-REPLACE-ME
-export AWS_CODEGURU_TARGET_REGION=YOUR-AWS-REGION
+-   You will need to have `NodeJS` and all [requirements](https://mediasoup.org/documentation/v3/mediasoup/installation/#requirements) installed, this project has been tested with Node version [16.X](https://nodejs.org/en/blog/release/v16.15.0/).
 
-# Run the demo!
-export AWS_CODEGURU_PROFILER_GROUP_NAME=DemoApplication-WithIssues
-mvn clean install # generates the DemoApplication-1.0-jar-with-dependencies.jar
-java -javaagent:codeguru-profiler-java-agent-standalone-1.2.2.jar \
-  -jar target/DemoApplication-1.0-jar-with-dependencies.jar with-issues
-```
-
-* To run the `without-issues` version, use the following instructions. Remember to replace `YOUR-ACCOUNT-ID`, `YOUR-AWS-REGION` and `YOUR-BUCKET-REPLACE-ME` as appropriate.
+-   Requirements install example for `Ubuntu 20.04`
 
 ```bash
-# These need to be set according to your setup:
-export DEMO_APP_SQS_URL=https://sqs.YOUR-AWS-REGION.amazonaws.com/YOUR-ACCOUNT-ID/DemoApplicationQueue
-export DEMO_APP_BUCKET_NAME=demo-application-test-bucket-1092734-YOUR-BUCKET-REPLACE-ME
-export AWS_CODEGURU_TARGET_REGION=YOUR-AWS-REGION
-
-# Run the demo!
-export AWS_CODEGURU_PROFILER_GROUP_NAME=DemoApplication-WithoutIssues
-mvn clean install # generates the DemoApplication-1.0-jar-with-dependencies.jar
-java -javaagent:codeguru-profiler-java-agent-standalone-1.2.2.jar \
-  -jar target/DemoApplication-1.0-jar-with-dependencies.jar without-issues
+# Gcc g++ make
+$ apt-get update
+$ apt-get install -y build-essential
+# Python 3.8 and pip
+$ DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+$ apt install -y software-properties-common
+$ add-apt-repository ppa:deadsnakes/ppa
+$ apt update
+$ apt install -y python3.8 python3-pip
+# NodeJS 16.X and npm
+$ apt install -y curl dirmngr apt-transport-https lsb-release ca-certificates
+$ curl -sL https://deb.nodesource.com/setup_16.x | bash -
+$ apt-get install -y nodejs
+$ npm install -g npm@latest
 ```
 
-Run this for a few hours to get plenty of data, along with a recommendations report.
+-   Start the server
 
-**Note**: When running `with-issues`, you'll see plenty of `Expensive exception`, `Pointless work` and other debug
-gibberish being logged. This is **expected**! This is an example of a badly coded application, and you'll be able to see
-how these issues show up on the CodeGuru Profiler console.
+```bash
+# Clone this repo
+$ git clone https://github.com/miroslavpejic85/mirotalksfu.git
+# Go to to dir mirotalksfu
+$ cd mirotalksfu
+# Copy app/src/config.template.js in app/src/config.js and edit it if needed
+$ cp app/src/config.template.js app/src/config.js
+# Install dependencies - be patient, the first time will take a few minutes, in the meantime have a good coffee ;)
+$ npm install
+# Start the server
+$ npm start
+# If you want to start the server on a different port than the default use an env var
+$ PORT=3011 npm start
+```
 
-So don't worry 😎 -- we totally know about it.
+-   Open in browser https://localhost:3010 or `:3011` if default port changed.
 
-### License
+</details>
 
-This code is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
+<details open>
+<summary>Docker</summary>
+
+<br/>
+
+![docker](public/images/docker.png)
+
+-   Install docker engine: https://docs.docker.com/engine/install/
+-   Install docker compose: https://docs.docker.com/compose/install/
+-   Repository docker hub: https://hub.docker.com/r/mirotalk/sfu
+
+```bash
+# Copy app/src/config.template.js in app/src/config.js IMPORTANT (edit it according to your needs)
+$ cp app/src/config.template.js app/src/config.js
+# Copy docker-compose.template.yml in docker-compose.yml and edit it if needed
+$ cp docker-compose.template.yml docker-compose.yml
+# (Optional) Get official image from Docker Hub
+$ docker-compose pull
+# Create and start containers
+$ docker-compose up # -d
+# To stop and remove resources
+$ docker-compose down
+```
+
+-   Open in browser https://localhost:3010
+
+</details>
+
+<details>
+<summary>Ngrok - Https</summary>
+
+<br/>
+
+You can start videoconferencing directly from your Local PC, and be reachable from any device outside your network, simply by following [these documentation](docs/ngrok.md).
+
+</details>
+
+<details>
+<summary>Self Hosting</summary>
+
+<br/>
+
+To `Self-Host MiroTalk SFU` on `Your` dedicated `Server`, read [this documentation](docs/self-hosting.md).
+
+</details>
+
+<details>
+<summary>Notes</summary>
+
+<br/>
+
+-   Run the project on a `Linux or Mac` system as the `mediasoup` installation could have issues on `Windows`.
+
+</details>
+
+<details>
+<summary>Rest API</summary>
+
+<br/>
+
+-   The API documentation uses [swagger](https://swagger.io/) at https://localhost:3010/api/v1/docs or check it on live [here](https://sfu.mirotalk.com/api/v1/docs).
+
+```bash
+# The response will give you a entrypoint / Room URL for your meeting.
+$ curl -X POST "http://localhost:3010/api/v1/meeting" -H "authorization: mirotalksfu_default_secret" -H "Content-Type: application/json"
+$ curl -X POST "https://sfu.mirotalk.com/api/v1/meeting" -H "authorization: mirotalksfu_default_secret" -H "Content-Type: application/json"
+# The response will give you a entrypoint / URL for the direct join to the meeting.
+$ curl -X POST "http://localhost:3010/api/v1/join" -H "authorization: mirotalksfu_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"mirotalksfu","audio":"0","video":"0","screen":"0","notify":"0"}'
+$ curl -X POST "https://sfu.mirotalk.com/api/v1/join" -H "authorization: mirotalksfu_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"mirotalksfu","audio":"0","video":"0","screen":"0","notify":"0"}'
+```
+
+</details>
+
+<details open>
+<summary>Hetzner</summary>
+
+<br/>
+
+[![Hetzner](public/sponsors/Hetzner.png)](https://hetzner.cloud/?ref=XdRifCzCK3bn)
+
+This application is running for `demonstration purposes` on [Hetzner](https://www.hetzner.com/), one of `the best` [cloud providers](https://www.hetzner.com/cloud) and [dedicated root servers](https://www.hetzner.com/dedicated-rootserver).
+
+---
+
+Use [my personal link](https://hetzner.cloud/?ref=XdRifCzCK3bn) to receive `€⁠20 IN CLOUD CREDITS`.
+
+---
+
+If you need help to deploy `MiroTalk SFU` instance on `your dedicated cloud server`, or for other needs, don't hesitate to contact us at sfu.mirotalk@gmail.com
+
+</details>
+
+<details>
+<summary>DigitalOcean</summary>
+
+<br/>
+
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=1070207afbb1&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
+For personal use, you can start with a single $5 a month cloud server and scale up as needed. You can use [this link](https://m.do.co/c/1070207afbb1) to get a `$100 credit for the first 60 days`.
+
+If you need help to deploy `MiroTalk SFU` instance on `your dedicated cloud server`, or for other needs, don't hesitate to contact us at sfu.mirotalk@gmail.com
+
+</details>
+
+<details>
+<summary>Live Demo</summary>
+
+<br/>
+
+<a target="_blank" href="https://hetzner.cloud/?ref=XdRifCzCK3bn"><img src="public/sponsors/Hetzner.png" style="width: 220px;"></a>
+
+https://sfu.mirotalk.com
+
+[![mirotalksfu-qr](public/images/mirotalksfu-qr.png)](https://sfu.mirotalk.com/)
+
+</details>
+
+<details>
+<summary>Credits</summary>
+
+<br/>
+
+-   [Davide Pacilio](https://cruip.com/demos/solid/) (html template)
+-   [Dirk Vanbeveren](https://github.com/Dirvann) (sfu logic)
+-   [Mediasoup](https://mediasoup.org) (sfu server)
+
+</details>
+
+<details>
+<summary>Contributing</summary>
+
+<br/>
+
+-   Contributions are welcome and greatly appreciated!
+-   Just run before `npm run lint`
+
+</details>
+
+<details>
+<summary>Questions, Discussions and support</summary>
+
+<br/>
+
+-   For questions, discussions, help & support, join with us on [Discord](https://discord.gg/rgGYfeYW3N)
+
+</details>
+
+<details>
+<summary>License</summary>
+
+<br/>
+
+[![AGPLv3](public/images/AGPLv3.png)](LICENSE)
+
+MiroTalk is free and can be modified and forked. But the conditions of the AGPLv3 (GNU Affero General Public License v3.0) need to be respected. In particular modifications need to be free as well and made available to the public. Get a quick overview of the license at [Choose an open source license](https://choosealicense.com/licenses/agpl-3.0/).
+
+For a MiroTalk license under conditions other than AGPLv3, please contact us at license.mirotalk@gmail.com or [purchase directly from CodeCanyon](https://codecanyon.net/item/mirotalk-sfu-webrtc-realtime-video-conferences/40769970).
+
+</details>
+
+<details open>
+<summary>Support the project</summary>
+
+<br/>
+
+Do you find MiroTalk useful?
+
+Support the project by [becoming a backer or sponsor](https://github.com/sponsors/miroslavpejic85). Your logo will show up here with a link to your website.
+
+|                                                                                   |                                                                                    |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [![BroadcastX](public/sponsors/BroadcastX.png)](https://broadcastx.de/)           | [![Hetzner](public/sponsors/Hetzner.png)](https://hetzner.cloud/?ref=XdRifCzCK3bn) |
+| [![LuvLounge](public/sponsors/LuvLounge.png)](https://luvlounge.ca)               | [![QuestionPro](public/sponsors/QuestionPro.png)](https://www.questionpro.com)     |
+| [![BrowserStack](public/sponsors/BrowserStack.png)](https://www.browserstack.com) |
+
+</details>
+
+<br/>
+
+<details>
+<summary>MiroTalk P2P</summary>
+
+<br/>
+
+Try also [MiroTalk P2P](https://github.com/miroslavpejic85/mirotalk), the difference between the two projects you can found [here](https://github.com/miroslavpejic85/mirotalksfu/issues/14#issuecomment-932701999).
+
+</details>
+
+This project is tested with [BrowserStack](https://www.browserstack.com).
